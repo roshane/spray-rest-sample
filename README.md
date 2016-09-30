@@ -19,7 +19,7 @@ Follow these steps to get started:
 
 1. Git-clone this repository.
 
-        $ git clone git://github.com/spray/spray-template.git my-project
+        $ git clone https://github.com/roshane/spray-rest-sample.git my-project
 
 2. Change directory into your clone:
 
@@ -27,7 +27,7 @@ Follow these steps to get started:
 
 3. Launch SBT:
 
-        $ sbt
+        $ ./sbt
 
 4. Compile everything and run all tests:
 
@@ -42,7 +42,3 @@ Follow these steps to get started:
 7. Stop the application:
 
         > re-stop
-
-8. Learn more at http://www.spray.io/
-
-9. Start hacking on `src/main/scala/com/example/MyService.scala`
