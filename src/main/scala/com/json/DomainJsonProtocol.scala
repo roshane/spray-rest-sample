@@ -5,6 +5,6 @@ import spray.json._
 
 object DomainJsonProtocol extends DefaultJsonProtocol {
 
-  implicit val TodoJsonFormat = jsonFormat3(Todo)
+  implicit val TodoJsonFormat = jsonFormat4(Todo)
 
 }

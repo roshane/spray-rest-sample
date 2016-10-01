@@ -6,6 +6,8 @@ scalaVersion := "2.11.6"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
+resolvers += "repo.novus rels" at "http://repo.novus.com/releases/"
+
 libraryDependencies ++= {
   val akkaV = "2.3.9"
   val sprayV = "1.3.3"
@@ -16,7 +18,8 @@ libraryDependencies ++= {
     "io.spray" %% "spray-json" % sprayJ,
 
     "com.escalatesoft.subcut" %% "subcut" % "2.1",
-
+    "org.mongodb" %% "casbah" % "2.8.1",
+    "com.github.salat" %% "salat" % "1.10.0",
     "io.spray" %% "spray-testkit" % sprayV % "test",
 
     "com.typesafe.akka" %% "akka-actor" % akkaV,

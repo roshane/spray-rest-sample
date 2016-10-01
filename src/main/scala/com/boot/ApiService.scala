@@ -39,16 +39,16 @@ trait ApiService extends HttpService with Injectable {
 
       get {
         respondWithMediaType(`application/json`) {
-          path("version"){
-            complete{
+          path("version") {
+            complete {
               "ApiService V0.1"
             }
           } ~
-          path("todo" / "findOne") {
-            complete {
-              todoService.findOne("someId")
-            }
-          } ~
+            path("todo" / "findOne" / Segment) {
+              (a) => complete {
+                todoService.findOne(a)
+              }
+            } ~
             path("todo" / "findAll") {
               complete {
                 todoService.findAll

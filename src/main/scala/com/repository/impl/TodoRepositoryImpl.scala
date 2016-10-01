@@ -1,43 +1,39 @@
 package com.repository.impl
 
-import com.domain.Todo
+import com.db.Db
+import com.escalatesoft.subcut.inject.{BindingModule, Injectable}
+import com.mongodb.DBObject
+import com.mongodb.casbah.commons.MongoDBObject
 import com.repository.TodoRepository
+import org.bson.types.ObjectId
 
 /**
  * Created by roshane on 9/29/16.
  */
-class TodoRepositoryImpl extends TodoRepository {
+class TodoRepositoryImpl(implicit val bindingModule: BindingModule) extends TodoRepository
+with Injectable {
 
-  override def findAll: List[Todo] = {
-    val list = List(
-      Todo("1", "completed todo item", true),
-      Todo("2", "completed todo item", true),
-      Todo("3", "completed todo item", true),
-      Todo("4", "completed todo item", true),
-      Todo("5", "completed todo item", true),
-      Todo("6", "completed todo item", true)
-    )
-    println("returning all todos", list)
-    list
+  private val db = inject[Db]
+
+  override def findAll: List[DBObject] = {
+    db.todoCollection.find().toList
   }
 
   override def deleteAll: Unit = {
-    println("deleting all todos")
+    db.todoCollection.remove(MongoDBObject())
   }
 
-  override def markCompleted(id: String): Option[Todo] = {
-    val todo = Todo("completed", "completed todo item", true)
-    println("returning value " + todo)
-    Option(todo)
+  override def markCompleted(id: String): Option[DBObject] = {
+    db.todoCollection.findAndModify(
+      MongoDBObject("_id" -> id),
+      MongoDBObject("completed" -> true))
   }
 
   override def findOne(id: String) = {
-    val todo = Todo("some todo", "some description", false)
-    println("returning value " + todo)
-    Option(todo)
+    db.todoCollection.findOneByID(new ObjectId(id))
   }
 
   override def delete(id: String) {
-    print("deleted all data")
+    db.todoCollection.remove(MongoDBObject("_id" -> id))
   }
 }

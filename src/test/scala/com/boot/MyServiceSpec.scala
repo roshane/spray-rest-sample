@@ -20,9 +20,16 @@ class MyServiceSpec extends Specification with Specs2RouteTest with ApiService {
       }
     }
 
-    "return TodoItem    for GET request to (/api/todo/findOne)" in {
-      Get("/api/todo/findOne") ~> appRoute ~> check {
+    "return Todo    for GET request to (/api/todo/findOne)" in {
+      Get("/api/todo/findOne/57efa486a028e1b277281466") ~> appRoute ~> check {
         responseAs[Todo].completed mustEqual false
+        contentType mustEqual ContentTypes.`application/json`
+      }
+    }
+
+    "return List[Todo] for GET request to (/api/todo/findAll)" in {
+      Get("/api/todo/findAll") ~> appRoute ~> check {
+        responseAs[List[Todo]].size mustNotEqual 0
         contentType mustEqual ContentTypes.`application/json`
       }
     }

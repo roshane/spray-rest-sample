@@ -42,3 +42,6 @@ Follow these steps to get started:
 7. Stop the application:
 
         > re-stop
+
+8. Initial data available in data/todo_items.js
+        > mongo todo_items.js

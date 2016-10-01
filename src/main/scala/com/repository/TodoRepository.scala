@@ -1,17 +1,17 @@
 package com.repository
 
-import com.domain.Todo
+import com.mongodb.DBObject
 
 /**
  * Created by roshane on 9/29/16.
  */
 trait TodoRepository {
 
-  def findAll: List[Todo]
+  def findAll: List[DBObject]
 
-  def findOne(id: String): Option[Todo]
+  def findOne(id: String): Option[DBObject]
 
-  def markCompleted(id: String): Option[Todo]
+  def markCompleted(id: String): Option[DBObject]
 
   def delete(id: String): Unit
 
