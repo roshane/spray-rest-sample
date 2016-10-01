@@ -44,4 +44,5 @@ Follow these steps to get started:
         > re-stop
 
 8. Initial data available in data/todo_items.js
+
         > mongo todo_items.js
