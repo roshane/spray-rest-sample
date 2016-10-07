@@ -2,10 +2,11 @@ package com.boot
 
 import akka.actor.Actor
 import com.conf.ApiServiceModule
-import com.domain.Todo
+import com.domain.{TempResp, ApiResponse, Todo}
 import com.escalatesoft.subcut.inject.Injectable
 import com.service.TodoService
 import spray.routing._
+import spray.routing.directives._
 import spray.http._
 import MediaTypes._
 
@@ -22,7 +23,6 @@ class ApiServiceActor extends Actor with ApiService {
   // or timeout handling
   def receive = runRoute(appRoute)
 }
-
 
 // this trait defines our service behavior independently from the service actor
 trait ApiService extends HttpService with Injectable {
@@ -41,20 +41,70 @@ trait ApiService extends HttpService with Injectable {
         respondWithMediaType(`application/json`) {
           path("version") {
             complete {
-              "ApiService V0.1"
+              ("version-1.0")
             }
           } ~
             path("todo" / "findOne" / Segment) {
-              (a) => complete {
-                todoService.findOne(a)
+              (id) => complete {
+                todoService.findOne(id)
               }
             } ~
             path("todo" / "findAll") {
               complete {
                 todoService.findAll
               }
+            }~
+            path("todo" / "findAll" / "completed"){
+              complete{
+                todoService.findAllCompleted
+              }
+            }~
+            path("todo" / "findAll" / "pending"){
+              complete{
+                todoService.findAllPending
+              }
             }
         }
-      }
+      } ~
+        put {
+          respondWithMediaType(`application/json`) {
+            path("todo" / "completed" / Segment) {
+              (id) => complete {
+                todoService.markCompleted(id)
+              }
+            }
+          }
+        } ~
+        delete {
+          respondWithMediaType(`application/json`) {
+            path("todo" / "delete" / Segment) {
+              (id) => {
+                complete {
+                  todoService.delete(id)
+                  TempResp(true)
+                }
+              }
+            } ~
+              path("todo" / "deleteAll") {
+                complete {
+                  todoService.deleteAll
+                  TempResp(true)
+                }
+              }
+          }
+        } //~
+//        post {
+//          respondWithMediaType(`application/json`) {
+//            path("todo" / "add") {
+//              entity(as[Todo]){
+//                todo=>{
+//                  complete{
+//                    todoService.save(todo)
+//                  }
+//                }
+//              }
+//            }
+//          }
+//        }
     }
 }

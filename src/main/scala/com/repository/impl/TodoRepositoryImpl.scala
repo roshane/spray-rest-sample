@@ -1,6 +1,7 @@
 package com.repository.impl
 
 import com.db.Db
+import com.domain.Todo
 import com.escalatesoft.subcut.inject.{BindingModule, Injectable}
 import com.mongodb.DBObject
 import com.mongodb.casbah.commons.MongoDBObject
@@ -25,8 +26,8 @@ with Injectable {
 
   override def markCompleted(id: String): Option[DBObject] = {
     db.todoCollection.findAndModify(
-      MongoDBObject("_id" -> id),
-      MongoDBObject("completed" -> true))
+      MongoDBObject("_id" -> new ObjectId(id)),
+      MongoDBObject("$set" -> MongoDBObject("completed" -> true)))
   }
 
   override def findOne(id: String) = {
@@ -34,6 +35,24 @@ with Injectable {
   }
 
   override def delete(id: String) {
-    db.todoCollection.remove(MongoDBObject("_id" -> id))
+    db.todoCollection.remove(MongoDBObject("_id" -> new ObjectId(id)))
+  }
+
+  override def save(todo: Todo): Int = {
+    val result = db.todoCollection.insert(MongoDBObject(
+      "_id" -> todo.id,
+      "label" -> todo.label,
+      "description" -> todo.description,
+      "completed" -> false
+    ))
+    result.getN
+  }
+
+  override def findAllCompleted: List[DBObject] = {
+    db.todoCollection.find(MongoDBObject("completed" -> true)).toList
+  }
+
+  override def findAllPending: List[DBObject] = {
+    db.todoCollection.find(MongoDBObject("completed" -> false)).toList
   }
 }

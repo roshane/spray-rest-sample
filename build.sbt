@@ -23,6 +23,8 @@ libraryDependencies ++= {
     "io.spray" %% "spray-testkit" % sprayV % "test",
 
     "com.typesafe.akka" %% "akka-actor" % akkaV,
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
+    "org.slf4j"     % "slf4j-log4j12" % "1.7.2",
 
     "com.typesafe.akka" %% "akka-testkit" % akkaV % "test",
     "org.specs2" %% "specs2-core" % "2.3.11" % "test"

@@ -1,5 +1,6 @@
 package com.repository
 
+import com.domain.Todo
 import com.mongodb.DBObject
 
 /**
@@ -16,5 +17,11 @@ trait TodoRepository {
   def delete(id: String): Unit
 
   def deleteAll: Unit
+
+  def save(todo: Todo): Int
+
+  def findAllCompleted: List[DBObject]
+
+  def findAllPending: List[DBObject]
 
 }
